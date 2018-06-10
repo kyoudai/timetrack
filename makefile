@@ -1,5 +1,11 @@
 app = timetrack
 
+ifdef SYSTEMROOT
+	RM = del /Q
+else
+	RM = rm -f
+endif
+
 CXX = g++
 CXXFLAGS = -std=c++11 -static-libgcc -static-libstdc++ -pedantic-errors
 HEADERS = $(wildcard ./*.h)
@@ -19,7 +25,7 @@ $(OUT): $(OBJ)
 		$(CXX) $(CXXFLAGS) -c -o $@ $<
 
 clean:
-	del *.o *.exe
+	$(RM) $(OUT) *.o *.exe
 
 install:
 	cp $(OUT) $(DEST)

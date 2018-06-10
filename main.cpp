@@ -30,7 +30,7 @@ int main(int argc, char **argv) {
     std::cout << std::setw(10) << operation + operand.toString() << std::endl;
   }
 
-  std::string separator = std::string(8, (char)196);
+  std::string separator = std::string(8, '-');
 
   std::cout << std::setw(10) << separator << std::endl;
   std::cout << std::setw(10) << result << std::endl;
