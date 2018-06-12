@@ -20,11 +20,11 @@ int main(int argc, char **argv) {
     return 0;
   }
 
-  char operation = 43;
   Time result(current.getTime()); // todo: copy constructor
 
   for(int i = 2; i < argc; i++) {
     Time operand = Time(argv[i]);
+    std::string operation(operand.getTime() > 0 ? "+" : "");
     result = result + operand;
 
     std::cout << std::setw(10) << operation + operand.toString() << std::endl;
