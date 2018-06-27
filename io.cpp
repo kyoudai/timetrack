@@ -48,8 +48,19 @@ bool putTime(std::string file, Time time) {
   std::string pretty = oss.str();
 
   out.open(file, std::ios::out | std::ios::app);
-  
+
+  // insert newline if needed
+  std::ifstream in(file, std::ios::ate);
+  in.seekg(-1, std::ios_base::end);
+  char lastChar;
+  in.get(lastChar);
+  in.close();
+
   if (out.is_open()) {
+    if (lastChar != '\n') {
+      out << std::endl;
+    }
+
     out << time << "," << pretty << std::endl;
     out.close();
 
