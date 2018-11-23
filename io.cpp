@@ -49,7 +49,7 @@ bool putTime(std::string file, Time time) {
 
   out.open(file, std::ios::out | std::ios::app);
 
-  // insert newline if needed
+  // read the last character in the file
   std::ifstream in(file, std::ios::ate);
   in.seekg(-1, std::ios_base::end);
   char lastChar;
@@ -57,7 +57,8 @@ bool putTime(std::string file, Time time) {
   in.close();
 
   if (out.is_open()) {
-    if (lastChar != '\n') {
+    // insert newline if needed
+    if (lastChar != '\n' && lastChar != 0) {
       out << std::endl;
     }
 
