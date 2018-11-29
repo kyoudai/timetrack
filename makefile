@@ -1,17 +1,17 @@
 app = timetrack
 
 ifdef OS
-	RM = del /Q
 	CP = copy
-	OUT = .\$(app).exe
-	DEST = $(SYSTEMROOT) # todo: fix
 	CXXFLAGS = -std=c++11 -static-libgcc -static-libstdc++ -pedantic-errors
+	DEST = $(shell echo %SYSTEMROOT%)
+	OUT = .\$(app).exe
+	RM = del /Q
 else
 	CP = cp
-	RM = rm -f
-	OUT = ./$(app)
-	DEST = /usr/local/bin
 	CXXFLAGS = -std=c++11 -pedantic-errors
+	DEST = /usr/local/bin
+	OUT = ./$(app)
+	RM = rm -f
 endif
 
 CXX = g++
@@ -33,6 +33,7 @@ clean:
 	$(RM) $(OUT) *.o *.exe
 
 install:
+	@echo installing to $(DEST)
 	$(CP) $(OUT) $(DEST)
 
 .PHONY: clean
