@@ -1,3 +1,3 @@
 # timetrack
 
-Simple CLI time logging utility
+Simple time logging CLI utility
