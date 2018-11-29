@@ -7,6 +7,7 @@
 #include <iomanip>
 #include <sstream>
 #include <cstdlib>
+#include <ctype.h>
 
 Time getTime(std::string file) {
   Time zero;
@@ -17,14 +18,17 @@ Time getTime(std::string file) {
     std::string last;
 
     while (std::getline(in, line)) {
-      last = line;
+      // ignore line if it doesn't start with a digit
+      if (!line.empty() && std::isdigit(line.at(0))) {
+        last = line;
+      }
     }
 
     in.close();
 
     if (last.empty()) {
       std::cout << "No entry found, using " << zero << std::endl;
-      
+
       return zero;
     } else {
       return Time(last.substr(0, last.find(',')));

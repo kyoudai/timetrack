@@ -20,5 +20,10 @@ class TestTimeTrack(unittest.TestCase):
     self.assertEqual(stdout, 'No entry found, using 00:00:00\n\n  00:00:00\n +00:15:00\n  --------\n  00:15:00\n\nWrote to \'blank\'.\n', 'use default')
     self.assertEqual(result[:8], '00:15:00', 'write correctly')
 
+  def test_ignore_invalid(self):
+    (stdout, result) = run(['headers'])
+
+    self.assertEqual(stdout, '\n  00:15:00\n', 'read correctly')
+
 if __name__ == '__main__':
   unittest.main()
