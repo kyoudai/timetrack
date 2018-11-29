@@ -1,5 +1,5 @@
 #ifndef IO_H
-#define	IO_H
+#define IO_H
 
 #include <string>
 #include "time.h"
