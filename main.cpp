@@ -15,6 +15,22 @@ int main(int argc, char **argv) {
     return 0;
   }
 
+  // parse version argument
+  if (argc >= 2) {
+    std::string arg = std::string(argv[1]);
+
+    if (arg == "--version" || arg == "-v") {
+      std::cout << "timetrack " VERSION << std::endl;
+      std::cout << "Copyright (C) 2018 Andrei Nemes" << std::endl; 
+      
+      std::cout << "This is free software; see the source for copying conditions.  There is NO" << std::endl;
+      std::cout << "WARRANTY; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE." << std::endl;
+
+      return 0;
+    }
+  }
+
+  // otherwise, carry on with the rest
   Time current = getTime(argv[1]);
 
   std::cout << std::endl;

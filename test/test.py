@@ -1,5 +1,5 @@
 from setup import before_each, after_each
-from runner import run, app_name
+from runner import run, app_name, app_version
 import unittest
 
 class TestTimeTrack(unittest.TestCase):
@@ -39,6 +39,13 @@ class TestTimeTrack(unittest.TestCase):
     (stdout, result) = run()
 
     self.assertEqual(stdout, f'Usage: {app_name()} file [time1 time2 ...]\n')
+
+  def test_app_version(self):
+    (long, result) = run(['--version', 'ignored', 'arguments'])
+    (short, result) = run(['-v', 'ignored', 'arguments'])
+
+    self.assertEqual(long, f'timetrack {app_version()}\nCopyright (C) 2018 Andrei Nemes\nThis is free software; see the source for copying conditions.  There is NO\nWARRANTY; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n')
+    self.assertEqual(short, f'timetrack {app_version()}\nCopyright (C) 2018 Andrei Nemes\nThis is free software; see the source for copying conditions.  There is NO\nWARRANTY; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n')
 
 if __name__ == '__main__':
   unittest.main()
