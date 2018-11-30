@@ -25,5 +25,15 @@ class TestTimeTrack(unittest.TestCase):
 
     self.assertEqual(stdout, '\n  00:15:00\n', 'read correctly')
 
+  def test_ignore_invalid_write(self):
+    (stdout, result) = run(['headers', '87'])
+    lines = result.split('\n')
+
+    self.assertEqual(stdout, '\n  00:15:00\n +00:01:27\n  --------\n  00:16:27\n\nWrote to \'headers\'.\n', 'read correctly')
+    self.assertEqual(lines[0], 'total,date', 'first line')
+    self.assertEqual(lines[1], '00:15:00,1970-01-01T00:00:00', 'second line')
+    self.assertEqual(lines[2], 'this is a comment', 'third line')
+    self.assertEqual(lines[3][:8], '00:16:27', 'write correctly')
+
 if __name__ == '__main__':
   unittest.main()
