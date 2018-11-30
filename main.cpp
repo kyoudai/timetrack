@@ -10,7 +10,9 @@ std::string basename(std::string const& path) {
 int main(int argc, char **argv) {
   // if no argument supplied, exit here
   if (argc <= 1) {
-    std::cout << "Usage: " << basename(argv[0]) << " file [time1 time2 ...]" << std::endl;
+    std::cout << "Usage: " << basename(argv[0]) << " [options] file [time1 time2 ...]" << std::endl;
+    std::cout << "Options:" << std::endl;
+    std::cout << std::setw(20) << std::left << "  --version" << "Display program version and exit." << std::endl;
 
     return 0;
   }

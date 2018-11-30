@@ -38,7 +38,7 @@ class TestTimeTrack(unittest.TestCase):
   def test_app_basename(self):
     (stdout, result) = run()
 
-    self.assertEqual(stdout, f'Usage: {app_name()} file [time1 time2 ...]\n')
+    self.assertEqual(stdout, f'Usage: {app_name()} [options] file [time1 time2 ...]\nOptions:\n  --version         Display program version and exit.\n')
 
   def test_app_version(self):
     (long, result) = run(['--version', 'ignored', 'arguments'])
