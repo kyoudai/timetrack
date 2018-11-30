@@ -3,10 +3,14 @@
 #include <iostream>
 #include <iomanip>
 
+std::string basename(std::string const& path) {
+  return path.substr(path.find_last_of("/\\") + 1);
+}
+
 int main(int argc, char **argv) {
   // if no argument supplied, exit here
   if (argc <= 1) {
-    std::cout << "Usage: " << argv[0] << " file [time1 ...]" << std::endl;
+    std::cout << "Usage: " << basename(argv[0]) << " file [time1 time2 ...]" << std::endl;
 
     return 0;
   }

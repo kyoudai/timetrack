@@ -1,5 +1,5 @@
 from setup import before_each, after_each
-from runner import run
+from runner import run, app_name
 import unittest
 
 class TestTimeTrack(unittest.TestCase):
@@ -34,6 +34,11 @@ class TestTimeTrack(unittest.TestCase):
     self.assertEqual(lines[1], '00:15:00,1970-01-01T00:00:00', 'second line')
     self.assertEqual(lines[2], 'this is a comment', 'third line')
     self.assertEqual(lines[3][:8], '00:16:27', 'write correctly')
+
+  def test_app_basename(self):
+    (stdout, result) = run()
+
+    self.assertEqual(stdout, f'Usage: {app_name()} file [time1 time2 ...]\n')
 
 if __name__ == '__main__':
   unittest.main()

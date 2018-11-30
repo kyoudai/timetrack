@@ -2,15 +2,19 @@ import subprocess
 import os
 import sys
 
-timetrack = os.path.abspath('../timetrack')
+def app_name():
+  if (sys.platform == 'windows'):
+    return 'timetrack.exe'
 
-if (sys.platform == 'windows'):
-  timetrack = os.path.abspath('../timetrack.exe')
+  return 'timetrack'
 
 def run(args=[]):
-  stdout = subprocess.check_output([timetrack] + args).decode('UTF-8').replace('\r', '')
-  f = open(args[0], 'r')
-  result = f.read()
-  f.close()
+  stdout = subprocess.check_output([os.path.abspath(f'../{app_name()}')] + args).decode('UTF-8').replace('\r', '')
+  result = None
+
+  if (len(args) > 0):
+    f = open(args[0], 'r')
+    result = f.read()
+    f.close()
 
   return (stdout, result)
