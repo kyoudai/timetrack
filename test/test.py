@@ -35,17 +35,19 @@ class TestTimeTrack(unittest.TestCase):
     self.assertEqual(lines[2], 'this is a comment', 'third line')
     self.assertEqual(lines[3][:8], '00:16:27', 'write correctly')
 
-  def test_app_basename(self):
-    (stdout, result) = run()
-
-    self.assertEqual(stdout, f'Usage: {app_name()} [options] file [time1 time2 ...]\nOptions:\n  --version         Display program version and exit.\n')
-
   def test_app_version(self):
-    (long, result) = run(['--version', 'ignored', 'arguments'])
-    (short, result) = run(['-v', 'ignored', 'arguments'])
+    (stdout, result) = run(['--version', 'ignored', 'arguments'])
 
-    self.assertEqual(long, f'timetrack {app_version()}\nCopyright (C) 2018 Andrei Nemes\nThis is free software; see the source for copying conditions.  There is NO\nWARRANTY; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n')
-    self.assertEqual(short, f'timetrack {app_version()}\nCopyright (C) 2018 Andrei Nemes\nThis is free software; see the source for copying conditions.  There is NO\nWARRANTY; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n')
+    self.assertEqual(stdout, f'timetrack {app_version()}\nCopyright (C) 2018 Andrei Nemes\nThis is free software; see the source for copying conditions.  There is NO\nWARRANTY; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n')
+
+  def test_app_help(self):
+    (noArg, result) = run()
+    (arg, result) = run(['--help', 'ignored', 'arguments'])
+
+    usageText = f'Usage: {app_name()} [options] file [time1 time2 ...]\nOptions:\n  --version         Display program version and exit.\n  --help            Display usage information and exit.\n'
+
+    self.assertEqual(noArg, usageText)
+    self.assertEqual(arg, usageText)
 
 if __name__ == '__main__':
   unittest.main()
