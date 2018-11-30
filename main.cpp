@@ -12,6 +12,8 @@ void print_usage(std::string const& name) {
   std::cout << "Options:" << std::endl;
   std::cout << std::setw(20) << std::left << "  --version" << "Display program version and exit." << std::endl;
   std::cout << std::setw(20) << std::left << "  --help" << "Display usage information and exit." << std::endl;
+  std::cout << "Example:" << std::endl;
+  std::cout << "  " << basename(name) << " log.txt 1:27 -11:01 +2:15:23 127" << std::endl;
 }
 
 int main(int argc, char **argv) {

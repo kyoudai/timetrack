@@ -44,7 +44,7 @@ class TestTimeTrack(unittest.TestCase):
     (noArg, result) = run()
     (arg, result) = run(['--help', 'ignored', 'arguments'])
 
-    usageText = f'Usage: {app_name()} [options] file [time1 time2 ...]\nOptions:\n  --version         Display program version and exit.\n  --help            Display usage information and exit.\n'
+    usageText = f'Usage: {app_name()} [options] file [time1 time2 ...]\nOptions:\n  --version         Display program version and exit.\n  --help            Display usage information and exit.\nExample:\n  {app_name()} log.txt 1:27 -11:01 +2:15:23 127\n'
 
     self.assertEqual(noArg, usageText)
     self.assertEqual(arg, usageText)
