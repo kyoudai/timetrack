@@ -20,6 +20,20 @@ class TestTimeTrack(unittest.TestCase):
     self.assertEqual(stdout, 'No entry found, using 00:00:00\n\n  00:00:00\n +00:15:00\n  --------\n  00:15:00\n\nWrote to \'blank\'.\n', 'use default')
     self.assertEqual(result[:8], '00:15:00', 'write correctly')
 
+  def test_difference_write(self):
+    (stdout, result) = run(['single', '2:30', '5:00', '-1:25'])
+    (first, second, ignored) = result.split('\n')
+
+    self.assertEqual(second[:8], '00:21:05', 'write second total correctly')
+    self.assertEqual(second[9:17], '00:06:05', 'write second change correctly')
+
+  def test_difference_write_zero_sum(self):
+    (stdout, result) = run(['single', '2:30', '-2:30'])
+    (first, second, ignored) = result.split('\n')
+
+    self.assertEqual(second[:8], '00:15:00', 'write second total correctly')
+    self.assertEqual(second[9:17], '00:00:00', 'write second change correctly')
+
   def test_ignore_invalid(self):
     (stdout, result) = run(['headers'])
 
@@ -31,7 +45,7 @@ class TestTimeTrack(unittest.TestCase):
 
     self.assertEqual(stdout, '\n  00:15:00\n +00:01:27\n  --------\n  00:16:27\n\nWrote to \'headers\'.\n', 'read correctly')
     self.assertEqual(lines[0], 'total,date', 'first line')
-    self.assertEqual(lines[1], '00:15:00,1970-01-01T00:00:00', 'second line')
+    self.assertEqual(lines[1], '00:15:00,00:15:00,1970-01-01T00:00:00', 'second line')
     self.assertEqual(lines[2], 'this is a comment', 'third line')
     self.assertEqual(lines[3][:8], '00:16:27', 'write correctly')
 

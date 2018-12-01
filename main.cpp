@@ -47,22 +47,27 @@ int main(int argc, char **argv) {
     }
   }
 
-  // otherwise, carry on with the rest
+  // read and print current time
   Time current = getTime(argv[1]);
 
   std::cout << std::endl;
   std::cout << std::setw(10) << current << std::endl;
 
   if (argc <= 2) {
+    // if we have no operands, exit
     return 0;
   }
 
   Time result(current.getTime()); // todo: copy constructor
+  Time difference;
 
+  // loop through the operands and add them to the total, and difference
   for(int i = 2; i < argc; i++) {
     Time operand = Time(argv[i]);
     std::string operation(operand.getTime() > 0 ? "+" : "");
+
     result = result + operand;
+    difference = difference + operand;
 
     std::cout << std::setw(10) << operation + operand.toString() << std::endl;
   }
@@ -73,7 +78,7 @@ int main(int argc, char **argv) {
   std::cout << std::setw(10) << result << std::endl;
   std::cout << std::endl;
 
-  bool ok = putTime(argv[1], result);
+  bool ok = putTime(argv[1], result, difference);
   if (ok) {
     std::cout << "Wrote to '" << argv[1] << "'." << std::endl;
     return 0;

@@ -41,7 +41,7 @@ Time getTime(std::string file) {
   return zero;
 }
 
-bool putTime(std::string file, Time time) {
+bool putTime(std::string file, Time time, Time changed) {
   std::ofstream out;
 
   auto now = std::time(nullptr);
@@ -66,7 +66,7 @@ bool putTime(std::string file, Time time) {
       out << std::endl;
     }
 
-    out << time << "," << pretty << std::endl;
+    out << time << "," << changed << "," << pretty << std::endl;
     out.close();
 
     return true;

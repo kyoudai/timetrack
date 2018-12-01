@@ -5,7 +5,7 @@
 #include "time.h"
 
 Time getTime(std::string file); 
-bool putTime(std::string file, Time time);
+bool putTime(std::string file, Time time, Time changed);
 
 #endif
 
