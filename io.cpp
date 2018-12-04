@@ -19,7 +19,7 @@ Time getTime(std::string file) {
 
     while (std::getline(in, line)) {
       // ignore line if it doesn't start with a digit
-      if (!line.empty() && std::isdigit(line.at(0))) {
+      if (!line.empty() && (std::isdigit(line.at(0)) || line.at(0) == '-')) {
         last = line;
       }
     }

@@ -39,6 +39,11 @@ class TestTimeTrack(unittest.TestCase):
 
     self.assertEqual(stdout, '\n  00:15:00\n', 'read correctly')
 
+  def test_ignore_invalid_not_negative(self):
+    (stdout, result) = run(['negative'])
+
+    self.assertEqual(stdout, '\n -00:27:00\n', 'read correctly')
+
   def test_ignore_invalid_write(self):
     (stdout, result) = run(['headers', '87'])
     lines = result.split('\n')
