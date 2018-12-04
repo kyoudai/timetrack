@@ -27,11 +27,11 @@ all: $(OUT)
 
 # main target
 $(OUT): $(OBJ)
-		$(CXX) $(CXXFLAGS) -o $@ $^
+	$(CXX) $(CXXFLAGS) -o $@ $^
 
 # how to compile objects
 ./%.o: ./%.cpp ./%.h
-		$(CXX) $(CXXFLAGS) -c -o $@ $<
+	$(CXX) $(CXXFLAGS) -c -o $@ $<
 
 clean:
 	$(RM) $(OUT) *.o *.exe
