@@ -11,7 +11,7 @@ Time::Time(int seconds): seconds_(seconds) {}
 
 Time::Time(const std::string timestamp) {
   seconds_ = 0;
-  int sign = 1;
+  char sign = 1;
   std::string uTimestamp = timestamp;
 
   if (timestamp.at(0) == '-') {

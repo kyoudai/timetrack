@@ -9,6 +9,16 @@
 #include <cstdlib>
 #include <ctype.h>
 
+bool isValidEntry(std::string const& entry) {
+  if(entry.empty()) {
+    return false;
+  }
+
+  char first = entry.at(0);
+
+  return std::isdigit(first) || first == '-';
+}
+
 Time getTime(std::string file) {
   Time zero;
   std::ifstream in(file);
@@ -19,7 +29,7 @@ Time getTime(std::string file) {
 
     while (std::getline(in, line)) {
       // ignore line if it doesn't start with a digit
-      if (!line.empty() && (std::isdigit(line.at(0)) || line.at(0) == '-')) {
+      if (isValidEntry(line)) {
         last = line;
       }
     }

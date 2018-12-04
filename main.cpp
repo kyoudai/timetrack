@@ -7,7 +7,7 @@ std::string basename(std::string const& path) {
   return path.substr(path.find_last_of("/\\") + 1);
 }
 
-void print_usage(std::string const& name) {
+void printUsage(std::string const& name) {
   std::cout << "Usage: " << basename(name) << " [options] file [time1 time2 ...]" << std::endl;
   std::cout << "Options:" << std::endl;
   std::cout << std::setw(20) << std::left << "  --version" << "Display program version and exit." << std::endl;
@@ -16,10 +16,18 @@ void print_usage(std::string const& name) {
   std::cout << "  " << basename(name) << " log.txt 1:27 -11:01 +2:15:23 127" << std::endl;
 }
 
+void printVersion() {
+  std::cout << "timetrack " VERSION << std::endl;
+  std::cout << "Copyright (C) 2018 Andrei Nemes" << std::endl; 
+      
+  std::cout << "This is free software; see the source for copying conditions.  There is NO" << std::endl;
+  std::cout << "WARRANTY; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE." << std::endl;
+}
+
 int main(int argc, char **argv) {
   // if no argument supplied, exit here
   if (argc <= 1) {
-    print_usage(argv[0]);
+    printUsage(argv[0]);
 
     return 0;
   }
@@ -30,18 +38,14 @@ int main(int argc, char **argv) {
 
     // check if version
     if (firstArgument == "--version") {
-      std::cout << "timetrack " VERSION << std::endl;
-      std::cout << "Copyright (C) 2018 Andrei Nemes" << std::endl; 
-      
-      std::cout << "This is free software; see the source for copying conditions.  There is NO" << std::endl;
-      std::cout << "WARRANTY; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE." << std::endl;
+      printVersion();
 
       return 0;
     }
 
     // check if help
     if (firstArgument == "--help") {
-      print_usage(argv[0]);
+      printUsage(argv[0]);
 
       return 0;
     }
@@ -58,10 +62,10 @@ int main(int argc, char **argv) {
     return 0;
   }
 
+  // loop through the operands and add them to the total, and difference
   Time result(current.getTime()); // todo: copy constructor
   Time difference;
 
-  // loop through the operands and add them to the total, and difference
   for(int i = 2; i < argc; i++) {
     Time operand = Time(argv[i]);
     std::string operation(operand.getTime() > 0 ? "+" : "");
@@ -78,8 +82,10 @@ int main(int argc, char **argv) {
   std::cout << std::setw(10) << result << std::endl;
   std::cout << std::endl;
 
-  bool ok = putTime(argv[1], result, difference);
-  if (ok) {
+  // write to file
+  bool writeSuccessful = putTime(argv[1], result, difference);
+
+  if (writeSuccessful) {
     std::cout << "Wrote to '" << argv[1] << "'." << std::endl;
     return 0;
   } else {
