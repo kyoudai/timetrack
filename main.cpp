@@ -18,10 +18,6 @@ void printUsage(std::string const& name) {
 
 void printVersion() {
   std::cout << "timetrack " VERSION << std::endl;
-  std::cout << "Copyright (C) 2018 Andrei Nemes" << std::endl; 
-      
-  std::cout << "This is free software; see the source for copying conditions.  There is NO" << std::endl;
-  std::cout << "WARRANTY; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE." << std::endl;
 }
 
 int main(int argc, char **argv) {

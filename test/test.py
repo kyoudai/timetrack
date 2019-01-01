@@ -57,7 +57,7 @@ class TestTimeTrack(unittest.TestCase):
   def test_app_version(self):
     (stdout, result) = run(['--version', 'ignored', 'arguments'])
 
-    self.assertEqual(stdout, f'timetrack {app_version()}\nCopyright (C) 2018 Andrei Nemes\nThis is free software; see the source for copying conditions.  There is NO\nWARRANTY; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n')
+    self.assertEqual(stdout, f'timetrack {app_version()}\n\n')
 
   def test_app_help(self):
     (noArg, result) = run()
