@@ -4,8 +4,10 @@
 #include <string>
 #include "time.h"
 
-Time getTime(std::string file); 
+Time getTime(std::string file);
 bool putTime(std::string file, Time time, Time changed);
+std::string getTimeNowIso();
+char getLastChar(std::string file);
 
 #endif
 

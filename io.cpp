@@ -8,6 +8,7 @@
 #include <sstream>
 #include <cstdlib>
 #include <ctype.h>
+#include <mutex>
 
 bool isValidEntry(std::string const& entry) {
   if(entry.empty()) {
@@ -47,37 +48,45 @@ Time getTime(std::string file) {
   std::exit(1);
 }
 
-bool putTime(std::string file, Time time, Time changed) {
-  std::ofstream out;
+char getLastChar(std::string file) {
+  std::ifstream in(file, std::ios::ate);
+  in.seekg(-1, std::ios_base::end);
+  char last;
+  in.get(last);
+  in.close();
 
+  return last;
+}
+
+std::string getTimeNowIso() {
   auto now = std::time(nullptr);
   auto tm = *std::localtime(&now);
 
   std::ostringstream oss;
   oss << std::put_time(&tm, "%Y-%m-%dT%H:%M:%S");
-  std::string pretty = oss.str();
 
-  // read the last character in the file
-  std::ifstream in(file, std::ios::ate);
-  in.seekg(-1, std::ios_base::end);
-  char lastChar;
-  in.get(lastChar);
-  in.close();
+  return oss.str();
+}
 
+bool putTime(std::string file, Time time, Time changed) {
+  static std::mutex mutex;
+  std::lock_guard<std::mutex> lock(mutex);
+
+  std::ofstream out;
   out.open(file, std::ios::out | std::ios::app);
 
-  if (out.is_open()) {
-    // insert newline if needed
-    if ((int) lastChar != 10 && (int) lastChar != 0) {
-      out << std::endl;
-    }
-
-    out << time << "," << changed << "," << pretty << std::endl;
-
-    out.close();
-    return true;
+  if (!out.is_open()) {
+    return false;
   }
 
-  out.close();
-  return false;
+  // insert newline if needed
+  char lastChar = getLastChar(file);
+  if ((int) lastChar != 10 && (int) lastChar != 0) {
+    out << std::endl;
+  }
+
+  // write new entry
+  out << time << "," << changed << "," << getTimeNowIso() << std::endl;
+
+  return true;
 }
