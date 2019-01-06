@@ -57,8 +57,6 @@ bool putTime(std::string file, Time time, Time changed) {
   oss << std::put_time(&tm, "%Y-%m-%dT%H:%M:%S");
   std::string pretty = oss.str();
 
-  out.open(file, std::ios::out | std::ios::app);
-
   // read the last character in the file
   std::ifstream in(file, std::ios::ate);
   in.seekg(-1, std::ios_base::end);
@@ -66,18 +64,20 @@ bool putTime(std::string file, Time time, Time changed) {
   in.get(lastChar);
   in.close();
 
+  out.open(file, std::ios::out | std::ios::app);
+
   if (out.is_open()) {
     // insert newline if needed
-    if (lastChar != '\n' && lastChar != 0) {
-      std::cout << std::endl; // todo: why the hell does this fix TestTimeTrack.test_use_default_write
+    if ((int) lastChar != 10 && (int) lastChar != 0) {
       out << std::endl;
     }
 
     out << time << "," << changed << "," << pretty << std::endl;
-    out.close();
 
+    out.close();
     return true;
   }
 
+  out.close();
   return false;
 }
