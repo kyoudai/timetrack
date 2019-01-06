@@ -69,6 +69,7 @@ bool putTime(std::string file, Time time, Time changed) {
   if (out.is_open()) {
     // insert newline if needed
     if (lastChar != '\n' && lastChar != 0) {
+      std::cout << std::endl; // todo: why the hell does this fix TestTimeTrack.test_use_default_write
       out << std::endl;
     }
 
