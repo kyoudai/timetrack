@@ -18,7 +18,9 @@ class Time {
 
     Time operator+(const Time& b);
 
+    std::string toTimeString() const;
     std::string toString() const;
+    std::string toSignedString() const;
   private:
     int seconds_;
 

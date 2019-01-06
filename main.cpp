@@ -2,13 +2,14 @@
 #include "io.h"
 #include <iostream>
 #include <iomanip>
+#include <vector>
 
 std::string basename(std::string const& path) {
   return path.substr(path.find_last_of("/\\") + 1);
 }
 
 void printUsage(std::string const& name) {
-  std::cout << "Usage: " << basename(name) << " [options] file [time1 time2 ...]" << std::endl;
+  std::cout << "Usage: " << basename(name) << " [options] file [options] [time1 time2 ...]" << std::endl;
   std::cout << "Options:" << std::endl;
   std::cout << std::setw(20) << std::left << "  --version" << "Display program version and exit." << std::endl;
   std::cout << std::setw(20) << std::left << "  --help" << "Display usage information and exit." << std::endl;
@@ -28,33 +29,55 @@ int main(int argc, char **argv) {
     return 0;
   }
 
-  // parse first argument
-  if (argc >= 2) {
-    std::string firstArgument = std::string(argv[1]);
+  bool OPT_VERBOSE = false;
 
+  std::string filePath; // consumed by the first non-flag argument
+  std::vector<std::string> operands;
+
+  // loop through the arguments
+  for(int i = 1; i < argc; i++) {
+    const std::string argument = std::string(argv[i]);
+    
     // check if version
-    if (firstArgument == "--version") {
+    if (argument == "--version") {
       printVersion();
 
       return 0;
     }
 
     // check if help
-    if (firstArgument == "--help") {
+    if (argument == "--help") {
       printUsage(argv[0]);
 
       return 0;
     }
+
+    // check for verbose
+    if (argument == "-v") {
+      OPT_VERBOSE = true;
+
+      continue;
+    }
+
+    if (filePath.empty()) {
+      filePath = argument;
+
+      continue;
+    }
+
+    // finally, treat it as an operand
+    operands.push_back(argument);
   }
 
-  // read and print current time
-  Time current = getTime(argv[1]);
+  // read current time
+  // this exits immediately if file can't be accessed
+  Time current = getTime(filePath); 
 
-  std::cout << std::endl;
-  std::cout << std::setw(10) << current << std::endl;
+  // if no operands, print current time and exit
+  if (operands.empty()) {
+    std::cout << std::endl;
+    std::cout << std::setw(10) << current << std::endl;
 
-  if (argc <= 2) {
-    // if we have no operands, exit
     return 0;
   }
 
@@ -62,16 +85,21 @@ int main(int argc, char **argv) {
   Time result(current.getTime()); // todo: copy constructor
   Time difference;
 
-  for(int i = 2; i < argc; i++) {
-    Time operand = Time(argv[i]);
-    std::string operation(operand.getTime() > 0 ? "+" : "");
+  // print the current time
+  std::cout << std::endl;
+  std::cout << std::setw(10) << current << std::endl;
+
+  // go through the rest of the entries
+  for (auto const& value: operands) {
+    Time operand = Time(value);
 
     result = result + operand;
     difference = difference + operand;
 
-    std::cout << std::setw(10) << operation + operand.toString() << std::endl;
+    std::cout << std::setw(10) << operand.toSignedString() << std::endl;
   }
 
+  // print the summary
   std::string separator = std::string(8, '-');
 
   std::cout << std::setw(10) << separator << std::endl;
@@ -79,13 +107,13 @@ int main(int argc, char **argv) {
   std::cout << std::endl;
 
   // write to file
-  bool writeSuccessful = putTime(argv[1], result, difference);
+  bool writeSuccessful = putTime(filePath, result, difference);
 
   if (writeSuccessful) {
-    std::cout << "Wrote to '" << argv[1] << "'." << std::endl;
+    std::cout << "Wrote to '" << filePath << "'." << std::endl;
     return 0;
   } else {
-    std::cout << "Couldn't write to '" << argv[1] << "'." << std::endl;
+    std::cout << "Couldn't write to '" << filePath << "'." << std::endl;
     return 1;
   }
 }

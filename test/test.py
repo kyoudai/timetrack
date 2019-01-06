@@ -12,12 +12,12 @@ class TestTimeTrack(unittest.TestCase):
   def test_use_default(self):
     (stdout, result) = run(['blank'])
 
-    self.assertEqual(stdout, 'No entry found, using 00:00:00\n\n  00:00:00\n', 'use default')
+    self.assertEqual(stdout, '\n  00:00:00\n', 'use default')
 
   def test_use_default_write(self):
     (stdout, result) = run(['blank', '15:00'])
 
-    self.assertEqual(stdout, 'No entry found, using 00:00:00\n\n  00:00:00\n +00:15:00\n  --------\n  00:15:00\n\nWrote to \'blank\'.\n', 'use default')
+    self.assertEqual(stdout, '\n  00:00:00\n +00:15:00\n  --------\n  00:15:00\n\nWrote to \'blank\'.\n', 'use default')
     self.assertEqual(result[:8], '00:15:00', 'write correctly')
 
   def test_difference_write(self):
@@ -57,13 +57,13 @@ class TestTimeTrack(unittest.TestCase):
   def test_app_version(self):
     (stdout, result) = run(['--version', 'ignored', 'arguments'])
 
-    self.assertEqual(stdout, f'timetrack {app_version()}\n\n')
+    self.assertEqual(stdout, f'timetrack {app_version()}\n')
 
   def test_app_help(self):
     (noArg, result) = run()
     (arg, result) = run(['--help', 'ignored', 'arguments'])
 
-    usageText = f'Usage: {app_name()} [options] file [time1 time2 ...]\nOptions:\n  --version         Display program version and exit.\n  --help            Display usage information and exit.\nExample:\n  {app_name()} log.txt 1:27 -11:01 +2:15:23 127\n'
+    usageText = f'Usage: {app_name()} [options] file [options] [time1 time2 ...]\nOptions:\n  --version         Display program version and exit.\n  --help            Display usage information and exit.\nExample:\n  {app_name()} log.txt 1:27 -11:01 +2:15:23 127\n'
 
     self.assertEqual(noArg, usageText)
     self.assertEqual(arg, usageText)

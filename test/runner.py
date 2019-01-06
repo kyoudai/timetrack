@@ -13,7 +13,7 @@ def app_version():
   version = f.read()
   f.close()
 
-  return version
+  return version.rstrip()
 
 def run(args=[]):
   stdout = subprocess.check_output([os.path.abspath(f'../{app_name()}')] + args).decode('UTF-8').replace('\r', '')

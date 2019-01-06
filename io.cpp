@@ -20,7 +20,6 @@ bool isValidEntry(std::string const& entry) {
 }
 
 Time getTime(std::string file) {
-  Time zero;
   std::ifstream in(file);
 
   if (in.is_open()) {
@@ -37,8 +36,7 @@ Time getTime(std::string file) {
     in.close();
 
     if (last.empty()) {
-      std::cout << "No entry found, using " << zero << std::endl;
-
+      Time zero;
       return zero;
     } else {
       return Time(last.substr(0, last.find(',')));
@@ -47,8 +45,6 @@ Time getTime(std::string file) {
 
   std::cout << "Can't open '" << file << "' for reading." << std::endl;
   std::exit(1);
-
-  return zero;
 }
 
 bool putTime(std::string file, Time time, Time changed) {

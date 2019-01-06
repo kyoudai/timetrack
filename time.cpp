@@ -61,10 +61,25 @@ Time Time::operator+(const Time& b) {
   return Time(getTime() + b.getTime());
 }
 
-std::string Time::toString() const {
-  return std::string(seconds_ < 0 ? "-" : "") + leftPad(getHours()) + ":" + leftPad(getMinutes()) + ":" + leftPad(getSeconds());
+std::string Time::toTimeString() const {
+  return leftPad(getHours()) + ":" + leftPad(getMinutes()) + ":" + leftPad(getSeconds());
 }
 
+std::string Time::toString() const {
+  return std::string(seconds_ < 0 ? "-" : "") + toTimeString();
+}
+
+std::string Time::toSignedString() const {
+  std::string sign("+");  
+
+  if (seconds_ < 0) {
+    sign = "-";
+  }
+
+  return sign + toTimeString();
+}
+
+// todo: move to util
 std::string Time::leftPad(int num) const {
   return std::string(num < 10 ? "0" : "") + std::to_string(num);
 }
