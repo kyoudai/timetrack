@@ -8,7 +8,10 @@
 #include <sstream>
 #include <cstdlib>
 #include <ctype.h>
+
+#ifndef __MINGW32__
 #include <mutex>
+#endif
 
 bool isValidEntry(std::string const& entry) {
   if(entry.empty()) {
@@ -69,8 +72,10 @@ std::string getTimeNowIso() {
 }
 
 bool putTime(std::string file, Time time, Time changed) {
+  #ifndef __MINGW32__
   static std::mutex mutex;
   std::lock_guard<std::mutex> lock(mutex);
+  #endif
 
   std::ofstream out;
   out.open(file, std::ios::out | std::ios::app);
