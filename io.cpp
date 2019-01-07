@@ -91,7 +91,7 @@ bool putTime(std::string file, Time time, Time changed) {
   }
 
   // write new entry
-  out << time << "," << changed << "," << getTimeNowIso() << std::endl;
+  out << time << "," << changed << "," << time.getTime() << "," << changed.getTime() << "," << getTimeNowIso() << std::endl;
 
   return true;
 }
