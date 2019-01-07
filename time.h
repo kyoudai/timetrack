@@ -21,11 +21,11 @@ class Time {
     std::string toTimeString() const;
     std::string toString() const;
     std::string toSignedString() const;
+    std::string toHumanString() const;
   private:
     int seconds_;
 
     int toSeconds(std::string time) const;
-    std::string leftPad(int num) const;
 };
 
 inline std::ostream& operator<< (std::ostream& os, const Time& time) {

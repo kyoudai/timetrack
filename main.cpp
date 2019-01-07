@@ -11,8 +11,10 @@ std::string basename(std::string const& path) {
 void printUsage(std::string const& name) {
   std::cout << "Usage: " << basename(name) << " [options] file [options] [time1 time2 ...]" << std::endl;
   std::cout << "Options:" << std::endl;
-  std::cout << std::setw(20) << std::left << "  --version" << "Display program version and exit." << std::endl;
-  std::cout << std::setw(20) << std::left << "  --help" << "Display usage information and exit." << std::endl;
+  std::cout << std::setw(20) << std::left << "  --version" << "Print program version and exit." << std::endl;
+  std::cout << std::setw(20) << std::left << "  --help" << "Print usage information and exit." << std::endl;
+  std::cout << std::setw(20) << std::left << "  -v" << "Verbose; print the current total in a human friendly way." << std::endl;
+  std::cout << std::setw(20) << std::left << "" << "It's only active when reading." << std::endl;
   std::cout << "Example:" << std::endl;
   std::cout << "  " << basename(name) << " log.txt 1:27 -11:01 +2:15:23 127" << std::endl;
 }
@@ -75,8 +77,12 @@ int main(int argc, char **argv) {
 
   // if no operands, print current time and exit
   if (operands.empty()) {
-    std::cout << std::endl;
-    std::cout << std::setw(10) << current << std::endl;
+    if (OPT_VERBOSE) {
+      std::cout << current.toHumanString() << std::endl;
+    } else {
+      std::cout << std::endl;
+      std::cout << std::setw(10) << current << std::endl;
+    }
 
     return 0;
   }

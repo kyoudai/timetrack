@@ -1,4 +1,5 @@
 #include "time.h"
+#include "util.h"
 #include <string>
 #include <sstream>
 #include <vector>
@@ -79,7 +80,44 @@ std::string Time::toSignedString() const {
   return sign + toTimeString();
 }
 
-// todo: move to util
-std::string Time::leftPad(int num) const {
-  return std::string(num < 10 ? "0" : "") + std::to_string(num);
+std::string Time::toHumanString() const {
+  const unsigned char hasHours = getHours() != 0 ? 0b00000100 : 0;
+  const unsigned char hasMinutes = getMinutes() != 0 ? 0b00000010 : 0;
+  const unsigned char hasSeconds = getSeconds() != 0 ? 0b00000001 : 0;
+
+  const std::string negative = getTime() < 0 ? "negative " : "";
+
+  // for now, it's easier to print a different text for each combination, rather than wrestle grammar
+  switch(hasHours | hasMinutes | hasSeconds) {
+    // nothing
+    case 0b00000000:
+      return "The current total is zero.";
+    // only seconds
+    case 0b00000001:
+      return "The current total is " + negative + plural(getSeconds(), "second", "seconds") + ".";
+    // only minutes
+    case 0b00000010:
+      return "The current total is exactly " + negative + plural(getMinutes(), "minute", "minutes") + ".";
+    // only hours
+    case 0b00000100:
+      return "The current total is exactly " + negative + plural(getHours(), "hour", "hours") + ".";
+    // minutes and seconds
+    case 0b00000011:
+      return "The current total is " + negative + plural(getMinutes(), "minute", "minutes") + " and "+ plural(getSeconds(), "second", "seconds") + ".";
+    // hours and seconds
+    case 0b00000101:
+      return "The current total is " + negative + plural(getHours(), "hour", "hours") + " and "+ plural(getSeconds(), "second", "seconds") + ".";
+    // hours and minutes
+    case 0b00000110:
+      return "The current total is " + negative + plural(getHours(), "hour", "hours") + " and "+ plural(getMinutes(), "minute", "minutes") + ".";
+    // hours, minutes and seconds
+    case 0b00000111:
+      return "The current total is "
+        + plural(getHours(), "hour", "hours") + ", "
+        + plural(getMinutes(), "minute", "minutes") + ", and "
+        + plural(getSeconds(), "second", "seconds")
+        + ".";
+    default:
+      return "The current total is zero.";
+  }
 }

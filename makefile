@@ -11,13 +11,13 @@ SRC = $(wildcard ./*.cpp)
 
 ifdef OS
 	CP = copy
-	CXXFLAGS = -std=c++11 -static-libgcc -static-libstdc++ -pedantic-errors $(EXTRAFLAGS)
+	CXXFLAGS = -std=c++14 -static-libgcc -static-libstdc++ -pedantic-errors $(EXTRAFLAGS)
 	DEST = $(shell echo %SYSTEMROOT%)
 	OUT = .\$(app).exe
 	RM = del /Q
 else
 	CP = cp
-	CXXFLAGS = -std=c++11 -pedantic-errors $(EXTRAFLAGS)
+	CXXFLAGS = -std=c++14 -pedantic-errors $(EXTRAFLAGS)
 	DEST = /usr/local/bin
 	OUT = ./$(app)
 	RM = rm -f
