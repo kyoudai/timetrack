@@ -91,34 +91,32 @@ std::string Time::toHumanString() const {
   switch(hasHours | hasMinutes | hasSeconds) {
     // nothing
     case 0b000:
-      return "The current total is zero.";
+      return "zero";
     // only seconds
     case 0b001:
-      return "The current total is " + negative + plural(getSeconds(), "second", "seconds") + ".";
+      return negative + plural(getSeconds(), "second", "seconds");
     // only minutes
     case 0b010:
-      return "The current total is exactly " + negative + plural(getMinutes(), "minute", "minutes") + ".";
+      return "exactly " + negative + plural(getMinutes(), "minute", "minutes");
     // only hours
     case 0b100:
-      return "The current total is exactly " + negative + plural(getHours(), "hour", "hours") + ".";
+      return "exactly " + negative + plural(getHours(), "hour", "hours");
     // minutes and seconds
     case 0b011:
-      return "The current total is " + negative + plural(getMinutes(), "minute", "minutes") + " and "+ plural(getSeconds(), "second", "seconds") + ".";
+      return negative + plural(getMinutes(), "minute", "minutes") + " and "+ plural(getSeconds(), "second", "seconds");
     // hours and seconds
     case 0b101:
-      return "The current total is " + negative + plural(getHours(), "hour", "hours") + " and "+ plural(getSeconds(), "second", "seconds") + ".";
+      return negative + plural(getHours(), "hour", "hours") + " and "+ plural(getSeconds(), "second", "seconds");
     // hours and minutes
     case 0b110:
-      return "The current total is " + negative + plural(getHours(), "hour", "hours") + " and "+ plural(getMinutes(), "minute", "minutes") + ".";
+      return negative + plural(getHours(), "hour", "hours") + " and "+ plural(getMinutes(), "minute", "minutes");
     // hours, minutes and seconds
     case 0b111:
-      return "The current total is "
-        + negative
+      return negative
         + plural(getHours(), "hour", "hours") + ", "
         + plural(getMinutes(), "minute", "minutes") + ", and "
-        + plural(getSeconds(), "second", "seconds")
-        + ".";
+        + plural(getSeconds(), "second", "seconds");
     default:
-      return "The current total is zero.";
+      return "zero";
   }
 }

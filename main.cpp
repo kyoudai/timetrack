@@ -78,7 +78,7 @@ int main(int argc, char **argv) {
   // if no operands, print current time and exit
   if (operands.empty()) {
     if (OPT_VERBOSE) {
-      std::cout << current.toHumanString() << std::endl;
+      std::cout << "The current total is " << current.toHumanString() << "." << std::endl;
     } else {
       std::cout << std::endl;
       std::cout << std::setw(10) << current << std::endl;
