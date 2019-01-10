@@ -110,7 +110,7 @@ std::string Time::toHumanString() const {
     // hours and minutes
     case 0b110:
       return negative + plural(getHours(), "hour", "hours") + " and "+ plural(getMinutes(), "minute", "minutes");
-    // hours, minutes and seconds
+    // hours, minutes, and seconds
     case 0b111:
       return negative
         + plural(getHours(), "hour", "hours") + ", "
