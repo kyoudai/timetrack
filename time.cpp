@@ -113,6 +113,7 @@ std::string Time::toHumanString() const {
     // hours, minutes and seconds
     case 0b00000111:
       return "The current total is "
+        + negative
         + plural(getHours(), "hour", "hours") + ", "
         + plural(getMinutes(), "minute", "minutes") + ", and "
         + plural(getSeconds(), "second", "seconds")

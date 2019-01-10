@@ -95,8 +95,11 @@ class TestTimeTrack(unittest.TestCase):
 
   def test_verbose_negative(self):
     (stdout, result) = run(['negative', '-v'])
-
     self.assertEqual(stdout, 'The current total is exactly negative 27 minutes.\n')
+
+    (stdout, result) = run(['negative', '-1:00:5'])
+    (stdout, result) = run(['negative', '-v'])
+    self.assertEqual(stdout, 'The current total is negative 1 hour, 27 minutes, and 5 seconds.\n')
 
   def test_app_version(self):
     (stdout, result) = run(['--version', 'ignored', 'arguments'])
