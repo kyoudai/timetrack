@@ -1,6 +1,7 @@
 app = timetrack
 
 cat = $(if $(filter $(OS),Windows_NT),type,cat)
+cp = $(if $(filter $(OS),Windows_NT),copy,cp)
 version = $(shell $(cat) VERSION)
 
 CXX = g++
@@ -10,13 +11,11 @@ OBJ = $(SRC:.cpp=.o)
 SRC = $(wildcard ./*.cpp)
 
 ifdef OS
-	CP = copy
 	CXXFLAGS = -std=c++14 -static-libgcc -static-libstdc++ -pedantic-errors $(EXTRAFLAGS)
 	DEST = $(shell echo %SYSTEMROOT%)
 	OUT = .\$(app).exe
 	RM = del /Q
 else
-	CP = cp
 	CXXFLAGS = -std=c++14 -pedantic-errors $(EXTRAFLAGS)
 	DEST = /usr/local/bin
 	OUT = ./$(app)
@@ -38,6 +37,6 @@ clean:
 
 install:
 	@echo installing to $(DEST)
-	$(CP) $(OUT) $(DEST)
+	$(cp) $(OUT) $(DEST)
 
 .PHONY: clean
